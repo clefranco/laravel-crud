@@ -1,0 +1,65 @@
+version: "3"
+services:
+  #php
+  alfasoft_app:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    image: digitalocean.com/php
+    container_name: alfasoft_app
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: alfasoft_app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - alfasoft_app_network
+
+  #nginx
+  alfasoft_nginx:
+    image: nginx:alpine
+    container_name: alfasoft_nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - alfasoft_app_network
+
+  alfasoft_postgres:
+    image: postgres
+    container_name: alfasoft_postgres
+    environment:
+      POSTGRES_PASSWORD: "alfasoft"
+    ports:
+      - "15432:5432"
+    volumes:
+      - ./docker/postgres:/var/lib/postgresql/data
+    networks:
+      - alfasoft_app_network
+
+  alfasoft_pgadmin:
+    image: dpage/pgadmin4
+    container_name: alfasoft_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com.br"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "16543:80"
+    depends_on:
+      - alfasoft_postgres
+    networks:
+      - alfasoft_app_network
+
+#networks
+networks:
+  alfasoft_app_network:
+    driver: bridge

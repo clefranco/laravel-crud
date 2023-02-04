@@ -30,6 +30,12 @@ class ContactController extends Controller
         return redirect('/contacts')->with('success', 'Contact saved.');
     }
 
+    public function show($id)
+    {
+        $contact = Contact::find($id);
+        return view('contacts.show', compact('contact'));
+    }
+
     public function edit($id)
     {
         $contact = Contact::find($id);

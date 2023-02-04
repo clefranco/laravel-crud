@@ -18,17 +18,17 @@
             @method('PATCH')
             @csrf
             <div class="form-group">
-                <label for="name">Name:*</label>
+                <label for="name">Name</label>
                 <input required type="text" class="form-control" name="name" value="{{ $contact->name }}" />
             </div>
 
             <div class="form-group">
-                <label for="ticket">Contact:*</label>
+                <label for="contact">Contact</label>
                 <input required type="phone" class="form-control" name="contact" value="{{ $contact->contact }}" />
             </div>
 
             <div class="form-group">
-                <label for="value">E-mail:</label>
+                <label for="email">E-mail</label>
                 <input required type="email" class="form-control" name="email" value="{{ $contact->email }}" />
             </div>
             <button type="submit" class="btn btn-primary">Update</button>

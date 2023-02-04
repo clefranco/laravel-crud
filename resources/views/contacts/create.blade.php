@@ -17,18 +17,18 @@
         <form method="post" action="{{ route('contacts.store') }}">
             @csrf
             <div class="form-group">
-                <label for="stock_name">Name:*</label>
-                <input required type="text" class="form-control" name="name"/>
+                <label for="name">Name</label>
+                <input required type="text" class="form-control" name="name" value="{{ old('name')}}"/>
             </div>
 
             <div class="form-group">
-                <label for="ticket">Contact:*</label>
-                <input required type="phone" class="form-control" name="contact" maxlength="9"/>
+                <label for="contact">Contact</label>
+                <input required type="phone" class="form-control" name="contact" maxlength="9" value="{{ old('contact')}}"/>
             </div>
 
             <div class="form-group">
-                <label for="value">E-mail:</label>
-                <input required type="email" class="form-control" name="email"/>
+                <label for="email">E-mail</label>
+                <input required type="email" class="form-control" name="email" value="{{ old('email')}}"/>
             </div>
             <button type="submit" class="btn btn-primary">Add Contact</button>
         </form>

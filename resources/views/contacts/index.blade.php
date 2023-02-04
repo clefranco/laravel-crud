@@ -29,9 +29,8 @@
                     <td>{{$contact->name}} </td>
                     <td>{{$contact->contact}}</td>
                     <td>{{$contact->email}}</td>
-                    <td>
-                        <a href="{{ route('contacts.edit',$contact->id)}}" class="btn btn-primary">Edit</a>
-                    </td>
+                    <td><a href="{{ route('contacts.show',$contact->id)}}" class="btn btn-primary">Show</a></td>
+                    <td><a href="{{ route('contacts.edit',$contact->id)}}" class="btn btn-primary">Edit</a></td>
                     <td>
                         <form action="{{ route('contacts.destroy', $contact->id)}}" method="post">
                             @csrf

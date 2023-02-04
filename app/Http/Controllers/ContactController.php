@@ -3,62 +3,91 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
-use App\Http\Requests\ContactRequest;
+use App\Http\Requests\StoreContactRequest;
+use App\Http\Requests\UpdateContactRequest;
 
 
 class ContactController extends Controller
 {
     public function index()
     {
-        $contacts = Contact::all();
-        return view('contacts.index', compact('contacts'));
+        try {
+            $contacts = Contact::all();
+            return view('contacts.index', compact('contacts'));
+        } catch (\Exception $e) {
+            return back()->withErrors($e->getMessage());
+        }
     }
 
     public function create()
     {
-        return view('contacts.create');
+        try {
+            return view('contacts.create');
+        } catch (\Exception $e) {
+            return back()->withErrors($e->getMessage());
+        }
     }
 
-    public function store(ContactRequest $request)
+    public function store(StoreContactRequest $request)
     {
-        $contact = new Contact([
-            'name' => $request->get('name'),
-            'contact' => $request->get('contact'),
-            'email' => $request->get('email')
-        ]);
-        $contact->save();
-        return redirect('/contacts')->with('success', 'Contact saved.');
+        try {
+            $contact = new Contact([
+                'name' => $request->get('name'),
+                'contact' => $request->get('contact'),
+                'email' => $request->get('email')
+            ]);
+            $contact->save();
+            return redirect('/contacts')->with('success', 'Contact saved.');
+        } catch (\Exception $e) {
+            return back()->withErrors($e->getMessage());
+        }
     }
 
     public function show($id)
     {
-        $contact = Contact::find($id);
-        return view('contacts.show', compact('contact'));
+        try {
+            $contact = Contact::find($id);
+            return view('contacts.show', compact('contact'));
+        } catch (\Exception $e) {
+            return back()->withErrors($e->getMessage());
+        }
     }
 
     public function edit($id)
     {
-        $contact = Contact::find($id);
-        return view('contacts.edit', compact('contact'));
+        try {
+            $contact = Contact::find($id);
+            return view('contacts.edit', compact('contact'));
+        } catch (\Exception $e) {
+            return back()->withErrors($e->getMessage());
+        }
     }
 
-    public function update(ContactRequest $request, $id)
+    public function update(UpdateContactRequest $request, $id)
     {
-        $contact = Contact::find($id);
+        try {
+            $contact = Contact::find($id);
 
-        $contact->name =  $request->get('name');
-        $contact->contact = $request->get('contact');
-        $contact->email = $request->get('email');
-        $contact->save();
+            $contact->name =  $request->get('name');
+            $contact->contact = $request->get('contact');
+            $contact->email = $request->get('email');
+            $contact->save();
 
-        return redirect('/contacts')->with('success', 'Contact updated.');
+            return redirect('/contacts')->with('success', 'Contact updated.');
+        } catch (\Exception $e) {
+            return back()->withErrors($e->getMessage());
+        }
     }
 
     public function destroy($id)
     {
-        $contact = Contact::find($id);
-        $contact->delete();
+        try {
+            $contact = Contact::find($id);
+            $contact->delete();
 
-        return redirect('/contacts')->with('success', 'Contact removed.');
+            return redirect('/contacts')->with('success', 'Contact removed.');
+        } catch (\Exception $e) {
+            return back()->withErrors($e->getMessage());
+        }
     }
 }

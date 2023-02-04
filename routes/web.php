@@ -13,5 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Auth::routes();
+
+Route::group(['middleware' => 'auth'], function(){
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::resource('contacts', App\Http\Controllers\ContactController::class);
+});
+
 Route::get('/', [App\Http\Controllers\ContactController::class, 'index']);
-Route::resource('contacts', App\Http\Controllers\ContactController::class);
